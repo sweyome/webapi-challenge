@@ -14,7 +14,7 @@ Go code!
 */
 
 const express = require('express');
-const port = 9000;
+const port = 5000;
 const server = express();
 
 const projectModel = require('./projects/projectRoutes.js');
@@ -25,5 +25,5 @@ server.use("/projects", projectModel);
 server.use("/actions", actionModel);
 
 server.listen( port, () => {
-    console.log(`====== Server listening on port ${port} ======`);
+    console.log(`====== Server listening on port ** ${port} ****`);
 });
