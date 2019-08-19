@@ -23,14 +23,15 @@ router.get("/", (req, res) => {
         });
 });
 
-// ---- get project by id ----------------
+//! ---- get project by id 
+
 router.get("/:id", (req, res) => {
     projectModel.get(req.params.id)
-        // When successful
+        //! When successful
         .then(projects => {
             res.status(200).json(projects);
         })
-        // Catch an error
+        //! Catch an error
         .catch(err => {
             console.log("error", err);
             res
@@ -39,17 +40,16 @@ router.get("/:id", (req, res) => {
         });
 });
 
-// ---- insert (create) a project ----------------
+// ! insert (create) a project ----------------
+
 router.post("/", (req, res) => {
-    // Maximum string length of 128 requirement on name
     if (req.body.name.length < 129 && req.body.description) {
-        //insert by passing resource object and add to db
         projectModel.insert(req.body)
             .then(projects => {
-                //return newly created resource
+                //! return newly created resource
                 res.status(200).json(projects);
             })
-            //catch error
+            //! catch error
             .catch( err => {
                 console.log("error", err);
                 res
@@ -61,35 +61,37 @@ router.post("/", (req, res) => {
             .status(500)
             .json({message: "Could not create post. Name must be under 128 characters. Description required"})
     }
-    //
+    
 })
 
-// ---- update an existing project by id ----------------
+//! ---- update an existing project by id ----------------
+
 router.put("/:id", (req, res) => {
-    //need id to pass and 'changes' being made
+    
     const { id } = req.params;
     const { name, description, completed } = req.body;
-    // update project with id, and body
+    //! update project with id, and body
     projectModel
         .update(id, {name, description, completed})
         .then(isUpdated => {
-            //throw errror if project didn't update
+            //** * Throw error if project didn't update
             if(!isUpdated) {
                 res.status(400).json({error: `The post with id ${id} could not be updated`})
             } else { 
-                //upon success return updated project
+                //**  upon success return updated project
                 res.status(200).json(isUpdated)
             }
         })
 })
 
-// ---- delete a project by id ----------------
+//!  delete a project by id 
+
 router.delete("/:id", (req, res) => {
-    //remove function in db by using id 
+    //! remove function in db by using id 
     const { id } = req.params;
     projectModel.remove(id)
         .then(projects => {
-            //return success code with number of records deleted
+            //**  */return success code with number of records deleted
             res.status(200).json(projects);
         })
         .catch(err => {
